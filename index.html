@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Практика 1С — Публикация работ</title>
+    <style>
+        :root {
+            --1c-red: #c8102e;
+            --1c-dark-red: #a00d25;
+            --1c-gray: #f4f4f4;
+            --1c-border: #ddd;
+            --1c-text: #333;
+            --1c-white: #ffffff;
+            --shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #eef1f5;
+            color: var(--1c-text);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+            width: 100%;
+            flex: 1;
+        }
+
+        /* Шапка */
+        header {
+            background: var(--1c-white);
+            box-shadow: var(--shadow);
+            margin-bottom: 25px;
+            border-radius: 0 0 12px 12px;
+            padding: 15px 0;
+        }
+
+        .header-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            font-size: 2.4rem;
+            color: var(--1c-red);
+        }
+
+        .logo-text h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--1c-red);
+            letter-spacing: -0.5px;
+        }
+
+        .logo-text span {
+            font-size: 0.85rem;
+            color: #555;
+            display: block;
+        }
+
+        .stats {
+            background: var(--1c-gray);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        /* Карточка добавления */
+        .card {
+            background: var(--1c-white);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--1c-border);
+        }
+
+        .card h2 {
+            font-size: 1.4rem;
+            margin-bottom: 18px;
+            color: var(--1c-dark-red);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: block;
+            margin-bottom: 6px;
+            color: #444;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid var(--1c-border);
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: border 0.2s;
+            background: #fafafa;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--1c-red);
+            background: var(--1c-white);
+            box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .file-upload-area {
+            border: 2px dashed var(--1c-border);
+            border-radius: 12px;
+            padding: 18px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+            background: #fafafa;
+        }
+
+        .file-upload-area:hover {
+            border-color: var(--1c-red);
+            background: #fff5f5;
+        }
+
+        .file-upload-area i {
+            font-size: 2rem;
+            color: var(--1c-red);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .file-name {
+            margin-top: 8px;
+            font-weight: 600;
+            color: var(--1c-dark-red);
+            word-break: break-all;
+        }
+
+        .btn {
+            background: var(--1c-red);
+            color: white;
+            border: none;
+            padding: 13px 28px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            letter-spacing: 0.3px;
+        }
+
+        .btn:hover {
+            background: var(--1c-dark-red);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(200, 16, 46, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--1c-red);
+            color: var(--1c-red);
+        }
+
+        .btn-outline:hover {
+            background: var(--1c-red);
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 6px 14px;
+            font-size: 0.8rem;
+        }
+
+        .actions-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .search-box input {
+            padding-left: 40px;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+        }
+
+        .filter-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .tag-filter {
+            background: #eee;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8rem;
+            transition: 0.2s;
+        }
+
+        .tag-filter.active {
+            background: var(--1c-red);
+            color: white;
+        }
+
+        /* Сетка работ */
+        .works-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .work-card {
+            background: var(--1c-white);
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--1c-border);
+            transition: 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .work-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+            border-color: #ccc;
+        }
+
+        .work-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: #222;
+        }
+
+        .work-author {
+            color: #666;
+            font-weight: 500;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .work-description {
+            color: #555;
+            font-size: 0.9rem;
+            margin-bottom: 14px;
+            flex: 1;
+        }
+
+        .work-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-bottom: 12px;
+        }
+
+        .tag {
+            background: #ffebee;
+            color: var(--1c-red);
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .work-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: auto;
+            border-top: 1px solid #eee;
+            padding-top: 12px;
+        }
+
+        .download-btn {
+            background: var(--1c-gray);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #333;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .download-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .delete-btn {
+            background: none;
+            border: none;
+            color: #c8102e;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.2rem;
+            opacity: 0.6;
+            transition: 0.2s;
+        }
+
+        .delete-btn:hover {
+            opacity: 1;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px;
+            color: #999;
+            grid-column: 1 / -1;
+        }
+
+        footer {
+            text-align: center;
+            padding: 18px;
+            color: #777;
+            font-size: 0.85rem;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .full-width {
+                grid-column: span 1;
+            }
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+    </style>
+    <!-- Иконки Font Awesome (CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon"><i class="fas fa-database"></i></div>
+                <div class="logo-text">
+                    <h1>Практика 1С</h1>
+                    <span>Публикация отчётов и проектов</span>
+                </div>
+            </div>
+            <div class="stats" id="stats">Загружено работ: 0</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Форма добавления -->
+        <div class="card">
+            <h2><i class="fas fa-plus-circle"></i> Добавить работу</h2>
+            <form id="workForm">
+                <div class="form-grid">
+                    <div>
+                        <label>ФИО автора</label>
+                        <input type="text" id="author" placeholder="Иванов Иван Иванович" required>
+                    </div>
+                    <div>
+                        <label>Название работы</label>
+                        <input type="text" id="title" placeholder="Разработка конфигурации «Учёт заказов»" required>
+                    </div>
+                    <div>
+                        <label>Тип практики</label>
+                        <select id="practiceType">
+                            <option value="Учебная">Учебная</option>
+                            <option value="Производственная">Производственная</option>
+                            <option value="Преддипломная">Преддипломная</option>
+                            <option value="Стажировка">Стажировка</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Теги (через запятую)</label>
+                        <input type="text" id="tags" placeholder="1С:Бухгалтерия, УТ 11, СКД">
+                    </div>
+                    <div class="full-width">
+                        <label>Краткое описание</label>
+                        <textarea id="description" placeholder="Опишите цели, задачи и результаты практики..."></textarea>
+                    </div>
+                    <div class="full-width">
+                        <label>Файл работы (отчёт, презентация, архив)</label>
+                        <div class="file-upload-area" id="fileDropArea">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span>Перетащите файл сюда или кликните для выбора</span>
+                            <input type="file" id="fileInput" hidden>
+                            <div class="file-name" id="fileName"></div>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 18px; text-align: right;">
+                    <button type="submit" class="btn"><i class="fas fa-paper-plane"></i> Опубликовать</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Поиск и фильтры -->
+        <div class="actions-bar">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Поиск по названию или автору...">
+            </div>
+            <div class="filter-tags" id="filterTags">
+                <button class="tag-filter active" data-tag="all">Все</button>
+            </div>
+        </div>
+
+        <!-- Список работ -->
+        <div class="works-grid" id="worksGrid">
+            <div class="empty-state">
+                <i class="fas fa-folder-open" style="font-size: 3rem; display: block; margin-bottom: 12px;"></i>
+                Пока нет опубликованных работ. Добавьте первую!
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        © 2026 Практика 1С. Локальное хранилище (LocalStorage). Все данные сохранены в вашем браузере.
+    </footer>
+
+    <script>
+        (function() {
+            // Ключ для localStorage
+            const STORAGE_KEY = 'practice1c_works';
+
+            // Текущие данные
+            let works = [];
+
+            // Загрузка из localStorage
+            function loadWorks() {
+                const stored = localStorage.getItem(STORAGE_KEY);
+                if (stored) {
+                    try {
+                        works = JSON.parse(stored);
+                    } catch (e) {
+                        works = [];
+                    }
+                } else {
+                    // Демо-примеры, если хранилище пустое
+                    works = [
+                        {
+                            id: Date.now() - 100000,
+                            author: 'Петрова Анна Сергеевна',
+                            title: 'Автоматизация расчёта зарплаты в 1С:ЗУП',
+                            practiceType: 'Производственная',
+                            tags: ['1С:ЗУП', 'расчёт зарплаты', 'кадровый учёт'],
+                            description: 'Разработан функционал для автоматического расчёта надбавок и удержаний с учётом внутренних нормативов компании.',
+                            fileName: 'Otchet_ZUP_Petrova.pdf',
+                            fileData: null, // в демо нет реального файла
+                            date: new Date().toISOString()
+                        },
+                        {
+                            id: Date.now() - 200000,
+                            author: 'Смирнов Денис Олегович',
+                            title: 'Интеграция 1С:УТ с интернет-магазином',
+                            practiceType: 'Преддипломная',
+                            tags: ['1С:Управление торговлей', 'интеграция', 'обмен данными'],
+                            description: 'Настроен двусторонний обмен заказами, товарами и статусами между 1С и WooCommerce через HTTP-сервисы.',
+                            fileName: 'Integraciya_UT_Smirnov.zip',
+                            fileData: null,
+                            date: new Date().toISOString()
+                        }
+                    ];
+                    saveWorks();
+                }
+            }
+
+            // Сохранение в localStorage
+            function saveWorks() {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(works));
+            }
+
+            // Рендер списка работ
+            function renderWorks(filterTag = 'all', searchQuery = '') {
+                const grid = document.getElementById('worksGrid');
+                const stats = document.getElementById('stats');
+
+                // Фильтрация
+                let filtered = works;
+                if (filterTag !== 'all') {
+                    filtered = filtered.filter(work => work.tags && work.tags.includes(filterTag));
+                }
+                if (searchQuery.trim() !== '') {
+                    const q = searchQuery.toLowerCase();
+                    filtered = filtered.filter(work => 
+                        work.title.toLowerCase().includes(q) || 
+                        work.author.toLowerCase().includes(q) ||
+                        (work.description && work.description.toLowerCase().includes(q))
+                    );
+                }
+
+                // Сортировка по дате (новые сверху)
+                filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                stats.textContent = `Загружено работ: ${works.length}`;
+
+                if (filtered.length === 0) {
+                    grid.innerHTML = `<div class="empty-state">
+                        <i class="fas fa-search" style="font-size: 3rem; display: block; margin-bottom: 12px;"></i>
+                        Ничего не найдено. Попробуйте изменить параметры поиска.
+                    </div>`;
+                    return;
+                }
+
+                grid.innerHTML = filtered.map(work => {
+                    const safeFileData = work.fileData ? work.fileData : '';
+                    const downloadAttr = safeFileData ? `download="${work.fileName || 'file'}"` : '';
+                    const hrefAttr = safeFileData ? safeFileData : '#';
+                    const downloadDisabled = !safeFileData;
+
+                    return `
+                    <div class="work-card">
+                        <h3 class="work-title">${escapeHtml(work.title)}</h3>
+                        <div class="work-author"><i class="fas fa-user"></i> ${escapeHtml(work.author)}</div>
+                        <div class="work-description">${escapeHtml(work.description || 'Без описания')}</div>
+                        <div class="work-tags">
+                            ${(work.tags || []).map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join('')}
+                            <span class="tag" style="background:#e3f2fd; color:#1565c0;">${escapeHtml(work.practiceType)}</span>
+                        </div>
+                        <div class="work-meta">
+                            <span><i class="far fa-calendar-alt"></i> ${new Date(work.date).toLocaleDateString('ru-RU')}</span>
+                            <div style="display: flex; gap: 10px; align-items: center;">
+                                ${work.fileName ? `
+                                <a href="${hrefAttr}" ${downloadAttr} class="download-btn" ${downloadDisabled ? 'style="opacity:0.5; pointer-events:none;"' : ''}>
+                                    <i class="fas fa-download"></i> ${escapeHtml(work.fileName)}
+                                </a>` : '<span style="font-size:0.8rem; color:#999;">Без файла</span>'}
+                                <button class="delete-btn" onclick="deleteWork('${work.id}')" title="Удалить работу">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>`;
+                }).join('');
+            }
+
+            // Экранирование HTML
+            function escapeHtml(text) {
+                const map = {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#039;'
+                };
+                return String(text).replace(/[&<>"']/g, m => map[m]);
+            }
+
+            // Обновление фильтров тегов
+            function updateTagFilters() {
+                const filterContainer = document.getElementById('filterTags');
+                const allTags = new Set();
+                works.forEach(work => (work.tags || []).forEach(tag => allTags.add(tag)));
+
+                let html = '<button class="tag-filter active" data-tag="all">Все</button>';
+                allTags.forEach(tag => {
+                    html += `<button class="tag-filter" data-tag="${escapeHtml(tag)}">${escapeHtml(tag)}</button>`;
+                });
+                filterContainer.innerHTML = html;
+
+                // Навешиваем обработчики
+                document.querySelectorAll('.tag-filter').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        document.querySelectorAll('.tag-filter').forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                        const tag = this.dataset.tag;
+                        const searchVal = document.getElementById('searchInput').value;
+                        renderWorks(tag, searchVal);
+                    });
+                });
+            }
+
+            // Добавление работы
+            function addWork(workData) {
+                const newWork = {
+                    id: Date.now().toString(),
+                    ...workData,
+                    date: new Date().toISOString()
+                };
+                works.push(newWork);
+                saveWorks();
+                updateTagFilters();
+                renderWorks('all', document.getElementById('searchInput').value);
+            }
+
+            // Удаление работы
+            window.deleteWork = function(id) {
+                if (confirm('Вы уверены, что хотите удалить эту работу?')) {
+                    works = works.filter(w => w.id !== id);
+                    saveWorks();
+                    updateTagFilters();
+                    // Сбросим активный фильтр на "Все"
+                    document.querySelectorAll('.tag-filter').forEach(b => b.classList.remove('active'));
+                    const allBtn = document.querySelector('.tag-filter[data-tag="all"]');
+                    if (allBtn) allBtn.classList.add('active');
+                    renderWorks('all', document.getElementById('searchInput').value);
+                }
+            };
+
+            // Инициализация
+            function init() {
+                loadWorks();
+                updateTagFilters();
+                renderWorks();
+
+                // Обработчик формы
+                document.getElementById('workForm').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const author = document.getElementById('author').value.trim();
+                    const title = document.getElementById('title').value.trim();
+                    const practiceType = document.getElementById('practiceType').value;
+                    const tagsRaw = document.getElementById('tags').value;
+                    const description = document.getElementById('description').value.trim();
+                    const fileInput = document.getElementById('fileInput');
+                    
+                    if (!author || !title) {
+                        alert('Пожалуйста, заполните автора и название работы.');
+                        return;
+                    }
+
+                    const tags = tagsRaw.split(',').map(t => t.trim()).filter(t => t !== '');
+                    
+                    // Чтение файла
+                    if (fileInput.files.length > 0) {
+                        const file = fileInput.files[0];
+                        const reader = new FileReader();
+                        reader.onload = function(ev) {
+                            const workData = {
+                                author,
+                                title,
+                                practiceType,
+                                tags,
+                                description,
+                                fileName: file.name,
+                                fileData: ev.target.result
+                            };
+                            addWork(workData);
+                            resetForm();
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        // Без файла
+                        addWork({
+                            author,
+                            title,
+                            practiceType,
+                            tags,
+                            description,
+                            fileName: null,
+                            fileData: null
+                        });
+                        resetForm();
+                    }
+                });
+
+                // Drag & Drop и клик по области загрузки
+                const dropArea = document.getElementById('fileDropArea');
+                const fileInput = document.getElementById('fileInput');
+                const fileNameDisplay = document.getElementById('fileName');
+
+                dropArea.addEventListener('click', () => fileInput.click());
+
+                fileInput.addEventListener('change', () => {
+                    if (fileInput.files.length > 0) {
+                        fileNameDisplay.textContent = `Выбран: ${fileInput.files[0].name}`;
+                    }
+                });
+
+                dropArea.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    dropArea.style.borderColor = '#c8102e';
+                    dropArea.style.background = '#fff5f5';
+                });
+
+                dropArea.addEventListener('dragleave', () => {
+                    dropArea.style.borderColor = '#ddd';
+                    dropArea.style.background = '#fafafa';
+                });
+
+                dropArea.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    dropArea.style.borderColor = '#ddd';
+                    dropArea.style.background = '#fafafa';
+                    if (e.dataTransfer.files.length > 0) {
+                        fileInput.files = e.dataTransfer.files;
+                        fileNameDisplay.textContent = `Выбран: ${e.dataTransfer.files[0].name}`;
+                    }
+                });
+
+                // Поиск
+                const searchInput = document.getElementById('searchInput');
+                searchInput.addEventListener('input', function() {
+                    const activeTag = document.querySelector('.tag-filter.active');
+                    const currentTag = activeTag ? activeTag.dataset.tag : 'all';
+                    renderWorks(currentTag, this.value);
+                });
+            }
+
+            function resetForm() {
+                document.getElementById('workForm').reset();
+                document.getElementById('fileName').textContent = '';
+                document.getElementById('fileInput').value = '';
+            }
+
+            // Старт
+            init();
+        })();
+    </script>
+</body>
+</html>
